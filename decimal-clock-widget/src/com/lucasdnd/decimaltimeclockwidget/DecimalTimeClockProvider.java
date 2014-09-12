@@ -86,9 +86,22 @@ public class DecimalTimeClockProvider extends AppWidgetProvider {
 		
 		// Update the time text
 		RemoteViews remoteViews = new RemoteViews(context.getPackageName(),	R.layout.widgetlayout);
+		
 		Time today = new Time(Time.getCurrentTimezone());
 		today.setToNow();
-		remoteViews.setTextViewText(R.id.clockTextView, "" + today.second);
+		int hour = today.hour;
+		int minute = today.minute;
+		int second = today.second;
+		double time = second + (minute * 60) + (hour * 60 * 60);
+		double total = 86400; // Seconds in a day
+		double decimalHour = time * 100 / total;
+		int decimalMinuteInt = (int)(Math.floor((decimalHour - Math.floor(decimalHour)) * 100));
+		String decimalMinute = "" + decimalMinuteInt;
+		if(decimalMinute.length() == 1) {
+			decimalMinute =  "0" + decimalMinute;
+		}
+		
+		remoteViews.setTextViewText(R.id.clockTextView, "" + ((int)decimalHour + ":" + decimalMinute));
 		appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
 	}
 }
