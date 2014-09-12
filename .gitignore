@@ -26,3 +26,5 @@ proguard/
 *.log
 
 *.keystore
+
+.DS_Store
