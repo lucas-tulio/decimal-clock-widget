@@ -3,14 +3,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 	
-	<TextView
+    <ImageView
+        android:id="@+id/background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        
+    
+    </ImageView>
+    <TextView
 		android:id="@+id/clockTextView"
 		android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
+        android:layout_height="wrap_content"
            
 		android:text="1337"
 		android:fontFamily="sans-serif-thin"
 		android:textSize="40sp"
            android:textColor="#757575"
-           android:layout_gravity="center"/>
+           android:layout_gravity="center"/>    
+	
 </FrameLayout>
