@@ -21,8 +21,11 @@ import android.widget.RemoteViews;
 public class DecimalTimeClockProvider extends AppWidgetProvider {
 	
 	public static String CLOCK_UPDATE = "com.lucasdnd.decimaltimeclockwidget.CLOCK_UPDATE";
+	public static String SWITCH_COLORS_ACTION = "com.lucasdnd.decimaltimeclockwidget.SWITCH_COLORS";
 	private static int canvasSize = 400;
 	private static int canvasPadding = 12;
+	
+	private static boolean isWhiteColor = true;
 	
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -32,18 +35,32 @@ public class DecimalTimeClockProvider extends AppWidgetProvider {
 		// Get the widget manager and ids for this widget provider, then call the shared clock update method.
 		ComponentName thisAppWidget = new ComponentName(context.getPackageName(), getClass().getName());
 	    AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-				    
+	    
+	    // Clock Update Event
 		if (CLOCK_UPDATE.equals(intent.getAction())) {
-			
 		    int ids[] = appWidgetManager.getAppWidgetIds(thisAppWidget);
 		    for (int appWidgetID: ids) {
 				updateClock(context, appWidgetManager, appWidgetID);
+		    }
+		}
+		
+		// Touch Event
+		if(SWITCH_COLORS_ACTION.equals(intent.getAction())) {
+			int ids[] = appWidgetManager.getAppWidgetIds(thisAppWidget);
+		    for (int appWidgetID: ids) {
+		    	isWhiteColor = !isWhiteColor;
+		    	updateClock(context, appWidgetManager, appWidgetID);
 		    }
 		}
 	}
 	
 	private PendingIntent createClockTickIntent(Context context) {
 		Intent intent = new Intent(CLOCK_UPDATE);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        return pendingIntent;
+	}
+	private PendingIntent createColorSwitchIntent(Context context) {
+		Intent intent = new Intent(SWITCH_COLORS_ACTION);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         return pendingIntent;
 	}
@@ -82,11 +99,15 @@ public class DecimalTimeClockProvider extends AppWidgetProvider {
 			// Get the layout for the App Widget and attach an on-click listener to the button
 			RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widgetlayout);
 			
-			// Tell the AppWidgetManager to perform an update on the current app widget
-			appWidgetManager.updateAppWidget(appWidgetId, views);
-
 			// Update The clock label using a shared method
 			updateClock(context, appWidgetManager, appWidgetId);
+			
+			// Touch Intent
+			PendingIntent p = createColorSwitchIntent(context);
+	        views.setOnClickPendingIntent(R.id.background, p);
+	        
+	        // Tell the AppWidgetManager to perform an update on the current app widget	        
+	        appWidgetManager.updateAppWidget(appWidgetId, views);
 		}
 	}
 
@@ -104,10 +125,17 @@ public class DecimalTimeClockProvider extends AppWidgetProvider {
 		double secondsInDay = 86400; // Seconds in a day
 		double decimalHour = time * 100 / secondsInDay;
 		int decimalMinuteInt = (int)(Math.floor((decimalHour - Math.floor(decimalHour)) * 100));
-		String decimalMinute = "" + decimalMinuteInt;
-		if(decimalMinute.length() == 1) {
-			decimalMinute =  "0" + decimalMinute;
+		
+		// Strings that will be shown on the widget
+		String decimalHourString = "" + ((int)decimalHour);
+		if(decimalHourString.length() == 1) {
+			decimalHourString = "0" + decimalHourString;
 		}
+		String decimalMinuteString = "" + decimalMinuteInt;
+		if(decimalMinuteString.length() == 1) {
+			decimalMinuteString =  "0" + decimalMinuteString;
+		}
+		
 		float timeSlice = (float)(time * 360 / secondsInDay);
 		
 		Bitmap bitmap = Bitmap.createBitmap(canvasSize, canvasSize, Config.ARGB_8888);
@@ -126,15 +154,21 @@ public class DecimalTimeClockProvider extends AppWidgetProvider {
 		p.setStrokeWidth(3);
 		canvas.drawCircle(canvasSize / 2, canvasSize / 2, canvasSize / 2 - canvasPadding, p);
 		
-		// Draw the white arc
-		p.setColor(Color.argb(255, 255, 255, 255));
+		// Draw the outter arc
+		if(isWhiteColor) {
+			p.setColor(Color.argb(255, 255, 255, 255));
+			views.setInt(R.id.clockTextView, "setTextColor", Color.argb(255, 220, 220, 220));
+		} else {
+			p.setColor(Color.argb(255, 117, 117, 117));
+			views.setInt(R.id.clockTextView, "setTextColor", Color.argb(255, 117, 117, 117));
+		}
 		p.setStyle(Paint.Style.STROKE);
 		p.setStrokeWidth(canvasPadding);
 		p.setStrokeCap(Paint.Cap.ROUND);
 		canvas.drawArc(new RectF(canvasPadding, canvasPadding, canvasSize - canvasPadding, canvasSize - canvasPadding), -90f, timeSlice, false, p);
 		
 		views.setImageViewBitmap(R.id.background, bitmap);
-		views.setTextViewText(R.id.clockTextView, "" + ((int)decimalHour + ":" + decimalMinute));
+		views.setTextViewText(R.id.clockTextView, "" + decimalHourString + ":" + decimalMinuteString);
 		appWidgetManager.updateAppWidget(appWidgetId, views);
 	}
 }
