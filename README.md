@@ -1,4 +1,4 @@
-decimal-clock-widget
+Decimal Clock Widget
 ====================
 
 Android decimal clock widget
