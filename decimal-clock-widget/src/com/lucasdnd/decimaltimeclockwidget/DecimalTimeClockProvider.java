@@ -157,7 +157,7 @@ public class DecimalTimeClockProvider extends AppWidgetProvider {
 		// Draw the outter arc
 		if(isWhiteColor) {
 			p.setColor(Color.argb(255, 255, 255, 255));
-			views.setInt(R.id.clockTextView, "setTextColor", Color.argb(255, 220, 220, 220));
+			views.setInt(R.id.clockTextView, "setTextColor", Color.argb(255, 242, 242, 242));
 		} else {
 			p.setColor(Color.argb(255, 117, 117, 117));
 			views.setInt(R.id.clockTextView, "setTextColor", Color.argb(255, 117, 117, 117));
