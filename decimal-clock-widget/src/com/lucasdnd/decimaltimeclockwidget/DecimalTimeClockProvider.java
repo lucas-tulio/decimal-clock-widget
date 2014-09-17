@@ -158,9 +158,11 @@ public class DecimalTimeClockProvider extends AppWidgetProvider {
 		if(isWhiteColor) {
 			p.setColor(Color.argb(255, 255, 255, 255));
 			views.setInt(R.id.clockTextView, "setTextColor", Color.argb(255, 242, 242, 242));
+			views.setInt(R.id.dateTextView, "setTextColor", Color.argb(255, 242, 242, 242));
 		} else {
 			p.setColor(Color.argb(255, 117, 117, 117));
 			views.setInt(R.id.clockTextView, "setTextColor", Color.argb(255, 117, 117, 117));
+			views.setInt(R.id.dateTextView, "setTextColor", Color.argb(255, 117, 117, 117));
 		}
 		p.setStyle(Paint.Style.STROKE);
 		p.setStrokeWidth(canvasPadding);
@@ -169,6 +171,7 @@ public class DecimalTimeClockProvider extends AppWidgetProvider {
 		
 		views.setImageViewBitmap(R.id.background, bitmap);
 		views.setTextViewText(R.id.clockTextView, "" + decimalHourString + ":" + decimalMinuteString);
+		views.setTextViewText(R.id.dateTextView, WorldSeasonCalendar.getWorldSeasonDate(today));
 		appWidgetManager.updateAppWidget(appWidgetId, views);
 	}
 }
