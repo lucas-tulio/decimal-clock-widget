@@ -15,7 +15,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.os.Bundle;
 import android.text.format.Time;
+import android.util.TypedValue;
 import android.widget.RemoteViews;
 
 public class DecimalTimeClockProvider extends AppWidgetProvider {
@@ -149,7 +151,11 @@ public class DecimalTimeClockProvider extends AppWidgetProvider {
 		canvas.drawCircle(canvasSize / 2, canvasSize / 2, canvasSize / 2 - canvasPadding, p);
 		
 		// Draw the gray circle
-		p.setColor(Color.argb(255, 200, 200, 200));
+		if(isWhiteColor) {
+			p.setColor(Color.argb(255, 200, 200, 200));
+		} else {
+			p.setColor(Color.argb(255, 159, 159, 159));
+		}
 		p.setStyle(Paint.Style.STROKE);
 		p.setStrokeWidth(3);
 		canvas.drawCircle(canvasSize / 2, canvasSize / 2, canvasSize / 2 - canvasPadding, p);
