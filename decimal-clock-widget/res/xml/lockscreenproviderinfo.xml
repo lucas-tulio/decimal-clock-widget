@@ -4,7 +4,10 @@
    xmlns:android="http://schemas.android.com/apk/res/android" 
    android:minWidth="180dp"
    android:minHeight="110dp"
+   android:maxWidth="250dp"
    android:updatePeriodMillis="8640"
+   android:resizeMode="horizontal"
+   android:previewImage="@drawable/icon"
    android:widgetCategory="home_screen|keyguard"
    android:initialLayout="@layout/lockscreenlayout">
 </appwidget-provider>
