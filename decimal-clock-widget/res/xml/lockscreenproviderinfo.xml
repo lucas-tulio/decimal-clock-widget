@@ -7,7 +7,7 @@
    android:maxWidth="250dp"
    android:updatePeriodMillis="8640"
    android:resizeMode="horizontal"
-   android:previewImage="@drawable/icon"
+   android:previewImage="@drawable/icon_lockscreen"
    android:widgetCategory="home_screen|keyguard"
    android:initialLayout="@layout/lockscreenlayout">
 </appwidget-provider>
