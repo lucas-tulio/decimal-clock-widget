@@ -2,9 +2,9 @@
 
 <appwidget-provider
    xmlns:android="http://schemas.android.com/apk/res/android" 
-   android:minWidth="110dp"
+   android:minWidth="180dp"
    android:minHeight="110dp"
    android:updatePeriodMillis="1000"
-   android:widgetCategory="home_screen"
-   android:initialLayout="@layout/widgetlayout">
+   android:widgetCategory="home_screen|keyguard"
+   android:initialLayout="@layout/lockscreenlayout">
 </appwidget-provider>

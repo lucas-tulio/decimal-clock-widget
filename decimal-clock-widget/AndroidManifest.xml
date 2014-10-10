@@ -13,7 +13,9 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         
-        <receiver android:name="com.lucasdnd.decimaltimeclockwidget.DecimalTimeClockProvider" >
+        <receiver
+			android:name="com.lucasdnd.decimaltimeclockwidget.DecimalTimeClockProvider"
+			android:label="Decimal Clock Widget">
 		    <intent-filter>
 		        <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
 		        <action android:name="com.lucasdnd.decimaltimeclockwidget.CLOCK_UPDATE" />
@@ -21,6 +23,17 @@
 		    </intent-filter>
 		    <meta-data android:name="android.appwidget.provider" android:resource="@xml/widgetproviderinfo" />
 		</receiver>
+		
+        <receiver
+			android:name="com.lucasdnd.decimaltimeclockwidget.LockScreenClockProvider"
+			android:label="Decimal Clock Lock Screen Widget">
+		    <intent-filter>
+		        <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+		        <action android:name="com.lucasdnd.decimaltimeclockwidget.CLOCK_UPDATE" />
+		        <action android:name="com.lucasdnd.decimaltimeclockwidget.SWITCH_COLORS" />
+		    </intent-filter>
+		    <meta-data android:name="android.appwidget.provider" android:resource="@xml/lockscreenproviderinfo" />
+		</receiver>
+        
     </application>
-
 </manifest>

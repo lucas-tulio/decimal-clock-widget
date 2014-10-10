@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+	    
+  	<LinearLayout
+        android:id="@+id/textContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+	    android:layout_centerVertical="true"
+	    android:orientation="vertical">
+        
+        <TextView
+			android:id="@+id/clockTextView"
+			android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        
+			android:text="13:37"
+			android:fontFamily="sans-serif-thin"
+			android:textSize="78sp"
+	        android:textColor="#EEEEEE"
+	        android:layout_gravity="center"/>
+        
+        <TextView
+			android:id="@+id/dateTextView"
+			android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        
+			android:text="A-01, 0"
+			android:fontFamily="sans-serif-condensed"
+			android:textStyle="bold"
+			android:textSize="22sp"
+	        android:textColor="#EEEEEE"
+	        android:layout_gravity="center"/>
+        
+    </LinearLayout>
+</RelativeLayout>

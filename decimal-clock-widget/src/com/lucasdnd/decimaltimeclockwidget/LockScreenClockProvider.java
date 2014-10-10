@@ -4,7 +4,7 @@ import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 
-public class DecimalTimeClockProvider extends BaseClockProvider {
+public class LockScreenClockProvider extends BaseClockProvider {
 	
 	@Override
 	public void onReceive(Context context, Intent intent) {
