@@ -86,7 +86,7 @@ public abstract class BaseClockProvider extends AppWidgetProvider {
     	Calendar calendar = Calendar.getInstance();
     	calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.add(Calendar.SECOND, 1);
-        alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 1000, createClockTickIntent(context));
+        alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 8640, createClockTickIntent(context));
 	}
 
 	@Override
