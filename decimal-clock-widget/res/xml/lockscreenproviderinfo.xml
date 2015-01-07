@@ -9,5 +9,7 @@
    android:resizeMode="horizontal"
    android:previewImage="@drawable/icon_lockscreen"
    android:widgetCategory="home_screen|keyguard"
-   android:initialLayout="@layout/lockscreenlayout">
+   android:initialLayout="@layout/lockscreenlayout"
+   
+   >
 </appwidget-provider>

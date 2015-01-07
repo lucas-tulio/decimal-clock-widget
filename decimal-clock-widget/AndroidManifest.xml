@@ -13,6 +13,12 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         
+        <activity android:name="com.lucasdnd.decimaltimeclockwidget.SettingsActivity">
+		    <intent-filter>
+		        <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+		    </intent-filter>
+		</activity>
+        
         <receiver
 			android:name="com.lucasdnd.decimaltimeclockwidget.DecimalTimeClockProvider"
 			android:label="Decimal Clock Widget">
