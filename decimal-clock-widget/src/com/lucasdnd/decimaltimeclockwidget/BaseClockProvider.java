@@ -17,6 +17,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.text.format.Time;
+import android.util.Log;
 import android.widget.RemoteViews;
 
 public abstract class BaseClockProvider extends AppWidgetProvider {
@@ -49,7 +50,6 @@ public abstract class BaseClockProvider extends AppWidgetProvider {
 		if(SWITCH_COLORS_ACTION.equals(intent.getAction())) {
 			int ids[] = appWidgetManager.getAppWidgetIds(thisAppWidget);
 		    for (int appWidgetID: ids) {
-		    	isWhiteColor = !isWhiteColor;
 		    	updateClock(context, appWidgetManager, appWidgetID);
 		    }
 		}
@@ -60,9 +60,9 @@ public abstract class BaseClockProvider extends AppWidgetProvider {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         return pendingIntent;
 	}
-	private PendingIntent createColorSwitchIntent(Context context) {
-		Intent intent = new Intent(SWITCH_COLORS_ACTION);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+	private PendingIntent createSettingsIntent(Context context) {
+		Intent intent = new Intent(context, SettingsActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
         return pendingIntent;
 	}
 	
@@ -108,8 +108,8 @@ public abstract class BaseClockProvider extends AppWidgetProvider {
 			updateClock(context, appWidgetManager, appWidgetId);
 			
 			// Touch Intent
-			PendingIntent p = createColorSwitchIntent(context);
-	        views.setOnClickPendingIntent(R.id.background, p);
+			PendingIntent p = createSettingsIntent(context);
+	        views.setOnClickPendingIntent(R.id.widget, p);
 	        
 	        // Tell the AppWidgetManager to perform an update on the current app widget	        
 	        appWidgetManager.updateAppWidget(appWidgetId, views);
