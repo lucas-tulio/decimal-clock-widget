@@ -13,7 +13,8 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         
-        <activity android:name="com.lucasdnd.decimaltimeclockwidget.SettingsActivity">
+        <activity android:name="com.lucasdnd.decimaltimeclockwidget.SettingsActivity"
+            android:windowSoftInputMode="stateHidden">
 		    <intent-filter>
 		        <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
 		    </intent-filter>
