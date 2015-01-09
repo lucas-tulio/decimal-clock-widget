@@ -51,6 +51,7 @@ public abstract class BaseClockProvider extends AppWidgetProvider {
 		    for (int appWidgetID: ids) {
 		    	
 		    	Bundle bundle = appWidgetManager.getAppWidgetOptions(appWidgetID);
+		    	isWhiteColor = (bundle.getInt("color", 0) == 0);
 		    	dayAndMonth = bundle.getInt("dayAndMonth", 0);
 		    	startingYear = bundle.getInt("year", 0);
 		    	

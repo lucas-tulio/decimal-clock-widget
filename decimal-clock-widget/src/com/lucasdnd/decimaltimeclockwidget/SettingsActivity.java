@@ -20,15 +20,18 @@ import android.widget.EditText;
 import android.widget.RemoteViews;
 import android.widget.Spinner;
 
-public class SettingsActivity extends Activity implements OnItemSelectedListener {
+public class SettingsActivity extends Activity {
 	
 	private String[] dayMonthOptions = {"Gregorian Calendar", "World Season Calendar"};
+	private String[] colorOptions = {"White", "Gray"};
 	private Context context;
 	private int appWidgetId;
 	
 	private Spinner dayMonthSpinner;
 	private EditText yearEditText;
+	private Spinner colorSpinner;
 	
+	private int selectedColor;
 	private int selectedDayAndMonth;
 	private int startingYear;
 	
@@ -48,6 +51,7 @@ public class SettingsActivity extends Activity implements OnItemSelectedListener
 		
 		// Load preferences
 		SharedPreferences prefs = getSharedPreferences("preferences", MODE_PRIVATE); 
+		selectedColor = prefs.getInt("color", 0);
 		selectedDayAndMonth = prefs.getInt("dayAndMonth", 0);
 		startingYear = prefs.getInt("year", 0);
 		
@@ -56,12 +60,39 @@ public class SettingsActivity extends Activity implements OnItemSelectedListener
 		ArrayAdapter<String> dayMonthAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, dayMonthOptions);
 		dayMonthAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		dayMonthSpinner.setAdapter(dayMonthAdapter);
-		dayMonthSpinner.setOnItemSelectedListener(this);
+		dayMonthSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				selectedDayAndMonth = position;
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {}
+			
+		});
 		dayMonthSpinner.setSelection(selectedDayAndMonth);
 		
 		// Year Input
 		yearEditText = (EditText) findViewById(R.id.yearEditText);
 		yearEditText.setText("" + startingYear);
+		
+		// Color spinner
+		colorSpinner = (Spinner) findViewById(R.id.colorSpinner);
+		ArrayAdapter<String> colorSpinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, colorOptions);
+		colorSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		colorSpinner.setAdapter(colorSpinnerAdapter);
+		colorSpinner.setSelection(selectedColor);
+		colorSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+			
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				selectedColor = position;
+			}
+			
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {}
+		});
 		
 		// Save Button
 		Button saveButton = (Button) findViewById(R.id.saveButton);
@@ -82,17 +113,6 @@ public class SettingsActivity extends Activity implements OnItemSelectedListener
 		});
 	}
 	
-	@Override
-	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-		Log.d("decimal", "selected: " + dayMonthOptions[position]);
-		selectedDayAndMonth = position;
-	}
-	
-	@Override
-	public void onNothingSelected(AdapterView<?> parent) {
-		Log.d("decimal", "nothing selected");
-	}
-	
 	/**
 	 * Save the user preferences
 	 */
@@ -101,6 +121,7 @@ public class SettingsActivity extends Activity implements OnItemSelectedListener
 		
 		// Save preferences
     	SharedPreferences.Editor editor = getSharedPreferences("preferences", MODE_PRIVATE).edit();
+    	editor.putInt("color", selectedColor);
     	editor.putInt("dayAndMonth", selectedDayAndMonth);
     	editor.putInt("year", startingYear);
     	editor.commit();
@@ -115,6 +136,7 @@ public class SettingsActivity extends Activity implements OnItemSelectedListener
     	RemoteViews views = new RemoteViews(context.getPackageName(), appInfo.initialLayout);
     	
     	Bundle b = new Bundle();
+    	b.putInt("color", selectedColor);
     	b.putInt("dayAndMonth", selectedDayAndMonth);
     	b.putInt("year", startingYear);
     	
