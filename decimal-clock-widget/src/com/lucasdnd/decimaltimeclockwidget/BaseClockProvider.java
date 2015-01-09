@@ -17,7 +17,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.text.format.Time;
-import android.util.Log;
 import android.widget.RemoteViews;
 
 public abstract class BaseClockProvider extends AppWidgetProvider {
@@ -185,7 +184,7 @@ public abstract class BaseClockProvider extends AppWidgetProvider {
 		
 		// Apply the time to the views
 		views.setTextViewText(R.id.clockTextView, "" + decimalHourString + ":" + decimalMinuteString);
-		views.setTextViewText(R.id.dateTextView, WorldSeasonCalendar.getWorldSeasonDate(today));
+		views.setTextViewText(R.id.dateTextView, WorldSeasonCalendar.getWorldSeasonDate(today) + ", " + WorldSeasonCalendar.getYear(today, 1543));
 
 		appWidgetManager.updateAppWidget(appWidgetId, views);
 	}
