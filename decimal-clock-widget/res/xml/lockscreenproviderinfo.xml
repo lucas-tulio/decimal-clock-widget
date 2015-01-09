@@ -10,6 +10,6 @@
    android:previewImage="@drawable/icon_lockscreen"
    android:widgetCategory="home_screen|keyguard"
    android:initialLayout="@layout/lockscreenlayout"
-   
+   android:configure="com.lucasdnd.decimaltimeclockwidget.SettingsActivity"
    >
 </appwidget-provider>
