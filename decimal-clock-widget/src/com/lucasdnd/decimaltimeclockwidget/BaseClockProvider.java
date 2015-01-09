@@ -28,13 +28,13 @@ public abstract class BaseClockProvider extends AppWidgetProvider {
 	
 	public static String CLOCK_UPDATE = "com.lucasdnd.decimaltimeclockwidget.CLOCK_UPDATE";
 	public static String SWITCH_COLORS_ACTION = "com.lucasdnd.decimaltimeclockwidget.SWITCH_COLORS";
+	public static String UPDATE_PREFERENCES = "android.appwidget.action.APPWIDGET_UPDATE_OPTIONS";
 	private static int canvasSize = 400;
 	private static int canvasPadding = 12;
 	
 	private static boolean isWhiteColor = true;
 	
 	private static final int GREGORIAN_DATE = 0;
-	private static final int WORLD_SEASON_DATE = 1;
 	private static int dayAndMonth = 0;
 	private static int startingYear = 0;
 	
@@ -47,9 +47,10 @@ public abstract class BaseClockProvider extends AppWidgetProvider {
 		ComponentName thisAppWidget = new ComponentName(context.getPackageName(), getClass().getName());
 	    AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
 	    
-	    // Clock Update Event
-		if (CLOCK_UPDATE.equals(intent.getAction())) {
-		    int ids[] = appWidgetManager.getAppWidgetIds(thisAppWidget);
+	    Log.d("", "action = " + intent.getAction());
+	    
+	    if (UPDATE_PREFERENCES.equals(intent.getAction())) {
+	    	int ids[] = appWidgetManager.getAppWidgetIds(thisAppWidget);
 		    for (int appWidgetID: ids) {
 		    	
 		    	Bundle bundle = appWidgetManager.getAppWidgetOptions(appWidgetID);
@@ -58,17 +59,20 @@ public abstract class BaseClockProvider extends AppWidgetProvider {
 		    	
 				updateClock(context, appWidgetManager, appWidgetID);
 		    }
+	    }
+	    
+	    // Clock Update Event
+		if (CLOCK_UPDATE.equals(intent.getAction())) {
+		    int ids[] = appWidgetManager.getAppWidgetIds(thisAppWidget);
+		    for (int appWidgetID: ids) {
+				updateClock(context, appWidgetManager, appWidgetID);
+		    }
 		}
 		
 		// Touch Event
 		if(SWITCH_COLORS_ACTION.equals(intent.getAction())) {
 			int ids[] = appWidgetManager.getAppWidgetIds(thisAppWidget);
 		    for (int appWidgetID: ids) {
-		    	
-		    	Bundle bundle = appWidgetManager.getAppWidgetOptions(appWidgetID);
-		    	dayAndMonth = bundle.getInt("dayAndMonth", 0); 
-		    	startingYear = bundle.getInt("year", 0);
-		    	
 		    	updateClock(context, appWidgetManager, appWidgetID);
 		    }
 		}

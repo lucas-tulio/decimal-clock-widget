@@ -123,6 +123,7 @@ public class SettingsActivity extends Activity implements OnItemSelectedListener
 		
 		Intent resultValue = new Intent();
 		resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+		resultValue.setAction("prefs");
 		setResult(RESULT_OK, resultValue);
 		
 		finish();
