@@ -31,11 +31,11 @@ public abstract class BaseClockProvider extends AppWidgetProvider {
 	private static int canvasSize = 400;
 	private static int canvasPadding = 12;
 	
-	private static boolean isWhiteColor = true;
-	
+	// Preferences
 	private static final int GREGORIAN_DATE = 0;
 	private static int dayAndMonth = 0;
 	private static int startingYear = 0;
+	private static boolean isWhiteColor = true;
 	
 	@Override
 	public void onReceive(Context context, Intent intent) {
