@@ -20,7 +20,6 @@ import android.graphics.RectF;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.format.Time;
-import android.util.Log;
 import android.widget.RemoteViews;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -46,8 +45,6 @@ public abstract class BaseClockProvider extends AppWidgetProvider {
 		// Get the widget manager and ids for this widget provider, then call the shared clock update method.
 		ComponentName thisAppWidget = new ComponentName(context.getPackageName(), getClass().getName());
 	    AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-	    
-	    Log.d("", "action = " + intent.getAction());
 	    
 	    if (UPDATE_PREFERENCES.equals(intent.getAction())) {
 	    	int ids[] = appWidgetManager.getAppWidgetIds(thisAppWidget);
