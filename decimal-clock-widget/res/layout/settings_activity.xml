@@ -1,25 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:id="@+id/scrollView"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:fillViewport="false"
+	    android:scrollbars="vertical" >
 
-    <TextView
-        android:id="@+id/dateFormatTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Date format"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+	<RelativeLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_margin="20dp">
 
-    <Spinner
-        android:id="@+id/dateFormatSpinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <Button
-        android:id="@+id/saveButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Save" />
+	    <TextView
+	        android:id="@+id/dayMonthTextView"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="Day and month format"
+	        android:textAppearance="?android:attr/textAppearanceMedium" />
+	
+	    <Spinner
+	        android:id="@+id/dayMonthSpinner"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+			android:layout_below="@id/dayMonthTextView"/>
+	    
+	    
+	    <LinearLayout
+	        android:id="@+id/yearContainer"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="20dp"
+	        android:layout_below="@id/dayMonthSpinner"
+	        android:orientation="horizontal">
+	        
+		    <TextView
+		        android:id="@+id/yearTextView"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="Current year"
+		        android:textAppearance="?android:attr/textAppearanceMedium"/>
+		    
+		    <EditText
+			    android:id="@+id/yearEditText"
+			    android:layout_width="140dp"
+			    android:layout_height="wrap_content"
+			    android:inputType="numberSigned" />
+		    
+		</LinearLayout>
+	    
+	    <Button
+	        android:id="@+id/saveButton"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_centerInParent="true"
+	        android:layout_marginTop="40dp"
+	        android:text="Save"
+	        android:layout_below="@id/yearContainer"/>
     
-</LinearLayout>
+	    
+	</RelativeLayout>
+</ScrollView>
