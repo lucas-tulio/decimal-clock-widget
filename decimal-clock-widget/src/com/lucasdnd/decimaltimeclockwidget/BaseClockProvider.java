@@ -2,7 +2,6 @@ package com.lucasdnd.decimaltimeclockwidget;
 
 import java.util.Calendar;
 
-import android.annotation.TargetApi;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -17,12 +16,10 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.format.Time;
 import android.widget.RemoteViews;
 
-@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public abstract class BaseClockProvider extends AppWidgetProvider {
 	
 	public static String CLOCK_UPDATE = "com.lucasdnd.decimaltimeclockwidget.CLOCK_UPDATE";

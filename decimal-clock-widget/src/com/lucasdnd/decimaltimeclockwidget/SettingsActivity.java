@@ -1,15 +1,12 @@
 package com.lucasdnd.decimaltimeclockwidget;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProviderInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -116,7 +113,6 @@ public class SettingsActivity extends Activity {
 	/**
 	 * Save the user preferences
 	 */
-	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	private void saveSettings() {
 		
 		// Save preferences
