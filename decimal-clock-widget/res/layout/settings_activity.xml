@@ -37,13 +37,14 @@
 		        android:id="@+id/yearTextView"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-		        android:text="Current year"
+		        android:text="Starting year"
 		        android:textAppearance="?android:attr/textAppearanceMedium"/>
 		    
 		    <EditText
 			    android:id="@+id/yearEditText"
 			    android:layout_width="140dp"
 			    android:layout_height="wrap_content"
+			    android:hint="optional"
 			    android:inputType="numberSigned" />
 		    
 		</LinearLayout>
