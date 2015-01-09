@@ -1,11 +1,13 @@
 package com.lucasdnd.decimaltimeclockwidget;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProviderInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -26,7 +28,9 @@ public class SettingsActivity extends Activity implements OnItemSelectedListener
 	
 	private Spinner dayMonthSpinner;
 	private EditText yearEditText;
+	
 	private int selectedDayAndMonth;
+	private int startingYear;
 	
 	@Override
 	public void onCreate(Bundle savedInstance) {
@@ -44,8 +48,8 @@ public class SettingsActivity extends Activity implements OnItemSelectedListener
 		
 		// Load preferences
 		SharedPreferences prefs = getSharedPreferences("preferences", MODE_PRIVATE); 
-		int dayAndMonth = prefs.getInt("dayAndMonth", 0);
-		int year = prefs.getInt("year", 0);
+		selectedDayAndMonth = prefs.getInt("dayAndMonth", 0);
+		startingYear = prefs.getInt("year", 0);
 		
 		// Day and month spinner
 		dayMonthSpinner = (Spinner) findViewById(R.id.dayMonthSpinner);
@@ -53,11 +57,11 @@ public class SettingsActivity extends Activity implements OnItemSelectedListener
 		dayMonthAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		dayMonthSpinner.setAdapter(dayMonthAdapter);
 		dayMonthSpinner.setOnItemSelectedListener(this);
-		dayMonthSpinner.setSelection(dayAndMonth);
+		dayMonthSpinner.setSelection(selectedDayAndMonth);
 		
 		// Year Input
 		yearEditText = (EditText) findViewById(R.id.yearEditText);
-		yearEditText.setText("" + year);
+		yearEditText.setText("" + startingYear);
 		
 		// Save Button
 		Button saveButton = (Button) findViewById(R.id.saveButton);
@@ -66,15 +70,14 @@ public class SettingsActivity extends Activity implements OnItemSelectedListener
 			@Override
 			public void onClick(View v) {
 				
-				int dayAndMonth = selectedDayAndMonth;
-				int year = 0;
 				try {
-					year = Integer.parseInt(yearEditText.getText().toString());
+					startingYear = Integer.parseInt(yearEditText.getText().toString());
 				} catch (Exception e) {
+					startingYear = 0;
 					e.printStackTrace();
 				}
 				
-				saveSettings(dayAndMonth, year);
+				saveSettings();
 			}
 		});
 	}
@@ -93,12 +96,13 @@ public class SettingsActivity extends Activity implements OnItemSelectedListener
 	/**
 	 * Save the user preferences
 	 */
-	private void saveSettings(int dayAndMonth, int year) {
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+	private void saveSettings() {
 		
 		// Save preferences
     	SharedPreferences.Editor editor = getSharedPreferences("preferences", MODE_PRIVATE).edit();
-    	editor.putInt("dayAndMonth", dayAndMonth);
-    	editor.putInt("year", year);
+    	editor.putInt("dayAndMonth", selectedDayAndMonth);
+    	editor.putInt("year", startingYear);
     	editor.commit();
     	
     	// Update the widget
@@ -109,6 +113,12 @@ public class SettingsActivity extends Activity implements OnItemSelectedListener
     		return;
     	}
     	RemoteViews views = new RemoteViews(context.getPackageName(), appInfo.initialLayout);
+    	
+    	Bundle b = new Bundle();
+    	b.putInt("dayAndMonth", selectedDayAndMonth);
+    	b.putInt("year", startingYear);
+    	
+    	appWidgetManager.updateAppWidgetOptions(appWidgetId, b);    	
     	appWidgetManager.updateAppWidget(appWidgetId, views);
 		
 		Intent resultValue = new Intent();

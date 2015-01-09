@@ -2,6 +2,7 @@ package com.lucasdnd.decimaltimeclockwidget;
 
 import java.util.Calendar;
 
+import android.annotation.TargetApi;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -16,9 +17,13 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.os.Build;
+import android.os.Bundle;
 import android.text.format.Time;
+import android.util.Log;
 import android.widget.RemoteViews;
 
+@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public abstract class BaseClockProvider extends AppWidgetProvider {
 	
 	public static String CLOCK_UPDATE = "com.lucasdnd.decimaltimeclockwidget.CLOCK_UPDATE";
@@ -28,11 +33,16 @@ public abstract class BaseClockProvider extends AppWidgetProvider {
 	
 	private static boolean isWhiteColor = true;
 	
+	private static final int GREGORIAN_DATE = 0;
+	private static final int WORLD_SEASON_DATE = 1;
+	private static int dayAndMonth = 0;
+	private static int startingYear = 0;
+	
 	@Override
 	public void onReceive(Context context, Intent intent) {
 
 		super.onReceive(context, intent);
-
+		
 		// Get the widget manager and ids for this widget provider, then call the shared clock update method.
 		ComponentName thisAppWidget = new ComponentName(context.getPackageName(), getClass().getName());
 	    AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
@@ -41,6 +51,11 @@ public abstract class BaseClockProvider extends AppWidgetProvider {
 		if (CLOCK_UPDATE.equals(intent.getAction())) {
 		    int ids[] = appWidgetManager.getAppWidgetIds(thisAppWidget);
 		    for (int appWidgetID: ids) {
+		    	
+		    	Bundle bundle = appWidgetManager.getAppWidgetOptions(appWidgetID);
+		    	dayAndMonth = bundle.getInt("dayAndMonth", 0);
+		    	startingYear = bundle.getInt("year", 0);
+		    	
 				updateClock(context, appWidgetManager, appWidgetID);
 		    }
 		}
@@ -49,6 +64,11 @@ public abstract class BaseClockProvider extends AppWidgetProvider {
 		if(SWITCH_COLORS_ACTION.equals(intent.getAction())) {
 			int ids[] = appWidgetManager.getAppWidgetIds(thisAppWidget);
 		    for (int appWidgetID: ids) {
+		    	
+		    	Bundle bundle = appWidgetManager.getAppWidgetOptions(appWidgetID);
+		    	dayAndMonth = bundle.getInt("dayAndMonth", 0); 
+		    	startingYear = bundle.getInt("year", 0);
+		    	
 		    	updateClock(context, appWidgetManager, appWidgetID);
 		    }
 		}
@@ -91,7 +111,7 @@ public abstract class BaseClockProvider extends AppWidgetProvider {
 
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-
+		
 		// Perform this loop procedure for each App Widget that belongs to this provider
 		for (int i = 0; i < appWidgetIds.length; i++) {
 			
@@ -185,8 +205,15 @@ public abstract class BaseClockProvider extends AppWidgetProvider {
 		
 		// Apply the time to the views
 		views.setTextViewText(R.id.clockTextView, "" + decimalHourString + ":" + decimalMinuteString);
-		views.setTextViewText(R.id.dateTextView, WorldSeasonCalendar.getWorldSeasonDate(today) + ", " + WorldSeasonCalendar.getYear(today, 1543));
-
+		
+		if (dayAndMonth == GREGORIAN_DATE) {
+			int year = today.year - startingYear;
+			views.setTextViewText(R.id.dateTextView, today.monthDay + "/" + (today.month + 1) + ", " + year);
+		} else {
+			int year = WorldSeasonCalendar.getYear(today, startingYear);
+			views.setTextViewText(R.id.dateTextView, WorldSeasonCalendar.getWorldSeasonDate(today) + ", " + year);			
+		}
+		
 		appWidgetManager.updateAppWidget(appWidgetId, views);
 	}
 }
