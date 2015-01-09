@@ -59,8 +59,9 @@ public abstract class BaseClockProvider extends AppWidgetProvider {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         return pendingIntent;
 	}
-	private PendingIntent createSettingsIntent(Context context) {
+	private PendingIntent createSettingsIntent(Context context, int appWidgetId) {
 		Intent intent = new Intent(context, SettingsActivity.class);
+		intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
         return pendingIntent;
 	}
@@ -107,7 +108,7 @@ public abstract class BaseClockProvider extends AppWidgetProvider {
 			updateClock(context, appWidgetManager, appWidgetId);
 			
 			// Touch Intent
-			PendingIntent p = createSettingsIntent(context);
+			PendingIntent p = createSettingsIntent(context, appWidgetId);
 	        views.setOnClickPendingIntent(R.id.widget, p);
 	        
 	        // Tell the AppWidgetManager to perform an update on the current app widget	        
