@@ -10,6 +10,7 @@ import android.appwidget.AppWidgetProviderInfo;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
@@ -126,6 +127,12 @@ public abstract class BaseClockProvider extends AppWidgetProvider {
 	}
 	
 	public static void updateClock(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
+		
+		// Load preferences
+		SharedPreferences prefs = context.getSharedPreferences("preferences", Context.MODE_PRIVATE); 
+		isWhiteColor = (prefs.getInt("color", 0) == 0);
+		dayAndMonth = prefs.getInt("dayAndMonth", 0);
+		startingYear = prefs.getInt("year", 0);
 		
 		// Get a reference to our Remote View
 		AppWidgetProviderInfo appInfo = appWidgetManager.getAppWidgetInfo(appWidgetId);
